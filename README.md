@@ -1,29 +1,32 @@
 # Alzheimer's Disease Classification
 
-This project focuses on developing a machine learning model to classify Alzheimer's disease from brain imaging data. The model utilizes Convolutional Neural Networks (CNN) for feature extraction, Quantum Neural Networks (QNN) for enhanced decision-making, and an ensemble of Swin Transformer models (Swin Tiny, Swin Small, Swin Base) for improved generalization.
-
-The project aims to showcase how AI and deep learning can assist in the early detection of Alzheimer's disease, enabling timely interventions and treatments.
+This project focuses on developing machine learning models to classify Alzheimer's disease using patient demographic, lifestyle, and clinical data. The project includes comprehensive data analysis, feature engineering, and the implementation of various machine learning models to predict Alzheimer's disease diagnosis.
 
 ## Technologies Used
 
-- **Python**: Programming language used for data processing and model implementation.
-- **TensorFlow**: Deep learning framework for building the CNN and Swin Transformer models.
-- **Keras**: High-level neural network API used for model creation and training.
-- **Qiskit**: Quantum computing library used to implement Quantum Neural Networks (QNN).
-- **Swin Transformer**: An ensemble of Swin Transformer models (Swin Tiny, Swin Small, Swin Base) for image classification.
-- **NumPy**: Numerical computing library used for data manipulation.
-- **Matplotlib**: Visualization library used for plotting graphs and metrics.
-- **Pandas**: Data analysis and manipulation library used for handling datasets.
+- **Python**: Programming language used for data processing and model implementation
+- **Pandas**: Data analysis and manipulation library
+- **NumPy**: Numerical computing library
+- **Scikit-learn**: Machine learning library for model implementation and evaluation
+- **Matplotlib & Seaborn**: Visualization libraries for data analysis and results presentation
+- **XGBoost**: Gradient boosting framework for model implementation
+- **LightGBM**: Lightweight gradient boosting framework
+- **CatBoost**: Gradient boosting framework with categorical feature support
 
 ## Project Details
 
-- **Model Architecture**:
-  - The project starts by preprocessing brain imaging data (MRI or PET scans).
-  - A Convolutional Neural Network (CNN) is used for feature extraction from images.
-  - Quantum Neural Networks (QNN) are utilized for enhancing decision-making accuracy.
-  - Ensemble learning is applied with Swin Transformer models (Swin Tiny, Swin Small, Swin Base) to improve model generalization.
+- **Dataset**: The dataset contains comprehensive patient information including:
+  - Demographic data (Age, Gender, Ethnicity)
+  - Lifestyle factors (BMI, Smoking, Alcohol Consumption, Physical Activity, Diet Quality)
+  - Clinical symptoms (Memory Complaints, Behavioral Problems, ADL, Confusion, etc.)
+  - Diagnosis information
 
-- **Dataset**: The dataset used for training and testing the model contains brain imaging data labeled with Alzheimer's disease stages.
+- **Model Implementation**:
+  - Data preprocessing and feature engineering
+  - Implementation of multiple machine learning models
+  - Model evaluation and comparison
+  - Feature importance analysis
+  - Performance metrics calculation
 
 ## Installation
 
@@ -32,3 +35,29 @@ To run this project locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/Alzheimers-Disease-Classification.git
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the Jupyter notebook:
+   ```bash
+   jupyter notebook alzheimer-disease-project-2025-for-edge-progarm.ipynb
+   ```
+
+## Project Structure
+
+- `alzheimer-disease-project-2025-for-edge-progarm.ipynb`: Main Jupyter notebook containing the complete implementation
+- `README.md`: Project documentation
+- `requirements.txt`: List of Python dependencies
+
+## Results
+
+The project includes comprehensive analysis of:
+- Data distribution and correlations
+- Feature importance analysis
+- Model performance metrics
+- Comparison of different machine learning approaches
+- Visualization of results and insights

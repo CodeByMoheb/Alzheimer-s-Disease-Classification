@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Alzheimer's Disease Prediction</h1>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="0">Female</option>
+                    <option value="1">Male</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ethnicity">Ethnicity:</label>
+                <select id="ethnicity" name="ethnicity" required>
+                    <option value="0">Caucasian</option>
+                    <option value="1">African American</option>
+                    <option value="2">Hispanic</option>
+                    <option value="3">Asian</option>
+                    <option value="4">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="education_level">Education Level:</label>
+                <select id="education_level" name="education_level" required>
+                    <option value="0">No formal education</option>
+                    <option value="1">Primary education</option>
+                    <option value="2">Secondary education</option>
+                    <option value="3">Higher education</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bmi">BMI:</label>
+                <input type="number" id="bmi" name="bmi" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="smoking">Smoking Status:</label>
+                <select id="smoking" name="smoking" required>
+                    <option value="0">Non-smoker</option>
+                    <option value="1">Smoker</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="alcohol_consumption">Alcohol Consumption (units/week):</label>
+                <input type="number" id="alcohol_consumption" name="alcohol_consumption" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="physical_activity">Physical Activity (hours/week):</label>
+                <input type="number" id="physical_activity" name="physical_activity" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="diet_quality">Diet Quality Score (1-10):</label>
+                <input type="number" id="diet_quality" name="diet_quality" min="1" max="10" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="memory_complaints">Memory Complaints:</label>
+                <select id="memory_complaints" name="memory_complaints" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="behavioral_problems">Behavioral Problems:</label>
+                <select id="behavioral_problems" name="behavioral_problems" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="adl">Activities of Daily Living Score:</label>
+                <input type="number" id="adl" name="adl" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confusion">Confusion:</label>
+                <select id="confusion" name="confusion" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="disorientation">Disorientation:</label>
+                <select id="disorientation" name="disorientation" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="personality_changes">Personality Changes:</label>
+                <select id="personality_changes" name="personality_changes" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="difficulty_completing_tasks">Difficulty Completing Tasks:</label>
+                <select id="difficulty_completing_tasks" name="difficulty_completing_tasks" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="forgetfulness">Forgetfulness:</label>
+                <select id="forgetfulness" name="forgetfulness" required>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <div id="result" class="hidden">
+            <h2>Prediction Result</h2>
+            <p id="predictionText"></p>
+            <p id="probabilityText"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('predictionText').textContent = 
+                    `Prediction: ${result.prediction === 1 ? 'High Risk of Alzheimer\'s' : 'Low Risk of Alzheimer\'s'}`;
+                document.getElementById('probabilityText').textContent = 
+                    `Probability: ${(result.probability * 100).toFixed(2)}%`;
+                
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html> 
