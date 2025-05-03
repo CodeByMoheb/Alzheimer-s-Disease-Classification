@@ -15,6 +15,11 @@
 - [Contributing](#contributing)
 - [License](#license)
 
+  
+## project demonstration video
+
+https://youtu.be/IVfPNXIvBpY?si=Ct51ObT9cQ-Aqn28
+
 ## 🎯 Project Overview
 This project implements an advanced machine learning system for early detection and risk assessment of Alzheimer's disease. The system combines state-of-the-art machine learning algorithms with a user-friendly web interface to provide accurate predictions and detailed patient reports.
 
