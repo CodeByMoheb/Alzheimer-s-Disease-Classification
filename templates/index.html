@@ -3,178 +3,318 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alzheimer's Disease Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Alzheimer's Disease Risk Assessment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --hospital-blue: #005b96;
+            --hospital-light: #e6f3ff;
+            --hospital-white: #ffffff;
+            --hospital-accent: #00a8e8;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--hospital-light);
+            color: var(--hospital-blue);
+        }
+        
+        .hospital-header {
+            background: linear-gradient(135deg, var(--hospital-blue), var(--hospital-accent));
+            color: var(--hospital-white);
+            padding: 30px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-container {
+            background-color: var(--hospital-white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .result-container {
+            display: none;
+            background-color: var(--hospital-white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--hospital-blue);
+            margin-bottom: 5px;
+        }
+        
+        .input-range {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .btn-hospital {
+            background: linear-gradient(135deg, var(--hospital-blue), var(--hospital-accent));
+            color: var(--hospital-white);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-hospital:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            color: var(--hospital-white);
+        }
+        
+        .feature-value {
+            font-weight: 600;
+            color: var(--hospital-blue);
+        }
+        
+        .prediction-positive {
+            color: #dc3545;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        .prediction-negative {
+            color: #28a745;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        .input-group-text {
+            background-color: var(--hospital-blue);
+            color: white;
+            border: none;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--hospital-accent);
+            box-shadow: 0 0 0 0.2rem rgba(0, 168, 232, 0.25);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .print-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            margin-left: 10px;
+        }
+        
+        .patient-name-input {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
+    <div class="hospital-header text-center">
+        <h1 class="animate__animated animate__fadeInDown">Alzheimer's Disease Risk Assessment</h1>
+        <p class="lead animate__animated animate__fadeInUp">Advanced Medical Diagnostic System</p>
+    </div>
+
     <div class="container">
-        <h1>Alzheimer's Disease Prediction</h1>
-        <form id="predictionForm">
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" required>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container animate__animated animate__fadeIn">
+                    <h2 class="text-center mb-4">Patient Assessment Form</h2>
+                    <form id="assessmentForm">
+                        <div class="mb-4 patient-name-input">
+                            <label for="patientName" class="form-label">Patient Name</label>
+                            <input type="text" class="form-control" id="patientName" name="patientName" required>
+                        </div>
+                        
+                        {% for feature, info in features.items() %}
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="{{ feature }}" class="form-label">{{ feature }}</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="{{ feature }}" name="{{ feature }}" 
+                                           min="{{ info.min }}" max="{{ info.max }}" step="0.1" required>
+                                    <span class="input-group-text">{{ info.unit }}</span>
+                                </div>
+                                <div class="input-range">
+                                    Range: {{ info.min }} - {{ info.max }} {{ info.unit }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-hospital">Assess Risk</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="result-container" id="resultContainer">
+                    <h2 class="text-center mb-4">Assessment Results</h2>
+                    <div class="text-center mb-4">
+                        <h3>Patient: <span id="patientNameResult"></span></h3>
+                        <h3>Prediction: <span id="prediction" class="prediction-negative"></span></h3>
+                        <p class="lead">Confidence: <span id="confidence"></span></p>
+                        <p class="text-muted">Assessment Date: <span id="timestamp"></span></p>
+                    </div>
+                    
+                    <h4 class="mb-3">Patient Details:</h4>
+                    <div class="row" id="patientDetails">
+                        <!-- Details will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-hospital" onclick="window.location.reload()">New Assessment</button>
+                        <button class="btn btn-hospital print-button" onclick="printReport()">Print Report</button>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="0">Female</option>
-                    <option value="1">Male</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="ethnicity">Ethnicity:</label>
-                <select id="ethnicity" name="ethnicity" required>
-                    <option value="0">Caucasian</option>
-                    <option value="1">African American</option>
-                    <option value="2">Hispanic</option>
-                    <option value="3">Asian</option>
-                    <option value="4">Other</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="education_level">Education Level:</label>
-                <select id="education_level" name="education_level" required>
-                    <option value="0">No formal education</option>
-                    <option value="1">Primary education</option>
-                    <option value="2">Secondary education</option>
-                    <option value="3">Higher education</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="bmi">BMI:</label>
-                <input type="number" id="bmi" name="bmi" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="smoking">Smoking Status:</label>
-                <select id="smoking" name="smoking" required>
-                    <option value="0">Non-smoker</option>
-                    <option value="1">Smoker</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="alcohol_consumption">Alcohol Consumption (units/week):</label>
-                <input type="number" id="alcohol_consumption" name="alcohol_consumption" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="physical_activity">Physical Activity (hours/week):</label>
-                <input type="number" id="physical_activity" name="physical_activity" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="diet_quality">Diet Quality Score (1-10):</label>
-                <input type="number" id="diet_quality" name="diet_quality" min="1" max="10" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="memory_complaints">Memory Complaints:</label>
-                <select id="memory_complaints" name="memory_complaints" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="behavioral_problems">Behavioral Problems:</label>
-                <select id="behavioral_problems" name="behavioral_problems" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="adl">Activities of Daily Living Score:</label>
-                <input type="number" id="adl" name="adl" step="0.01" required>
-            </div>
-
-            <div class="form-group">
-                <label for="confusion">Confusion:</label>
-                <select id="confusion" name="confusion" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="disorientation">Disorientation:</label>
-                <select id="disorientation" name="disorientation" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="personality_changes">Personality Changes:</label>
-                <select id="personality_changes" name="personality_changes" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="difficulty_completing_tasks">Difficulty Completing Tasks:</label>
-                <select id="difficulty_completing_tasks" name="difficulty_completing_tasks" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="forgetfulness">Forgetfulness:</label>
-                <select id="forgetfulness" name="forgetfulness" required>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <button type="submit">Predict</button>
-        </form>
-
-        <div id="result" class="hidden">
-            <h2>Prediction Result</h2>
-            <p id="predictionText"></p>
-            <p id="probabilityText"></p>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+        document.getElementById('assessmentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            
             try {
+                const formData = new FormData(e.target);
                 const response = await fetch('/predict', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams(data)
+                    body: formData
                 });
                 
                 const result = await response.json();
                 
-                if (result.error) {
-                    throw new Error(result.error);
+                if (response.ok) {
+                    // Update patient name
+                    document.getElementById('patientNameResult').textContent = result.patient_name;
+                    
+                    // Update prediction
+                    const predictionElement = document.getElementById('prediction');
+                    predictionElement.textContent = result.prediction;
+                    predictionElement.className = result.prediction === 'Positive' ? 'prediction-positive' : 'prediction-negative';
+                    
+                    // Update confidence and timestamp
+                    document.getElementById('confidence').textContent = result.confidence;
+                    document.getElementById('timestamp').textContent = result.timestamp;
+                    
+                    // Update patient details
+                    const detailsContainer = document.getElementById('patientDetails');
+                    detailsContainer.innerHTML = '';
+                    
+                    for (const [key, info] of Object.entries(result.details)) {
+                        const col = document.createElement('div');
+                        col.className = 'col-md-6 mb-2';
+                        col.innerHTML = `
+                            <div class="d-flex justify-content-between">
+                                <span>${key}:</span>
+                                <span class="feature-value">${info.value} ${info.unit}</span>
+                            </div>
+                        `;
+                        detailsContainer.appendChild(col);
+                    }
+                    
+                    // Show results with animation
+                    const resultContainer = document.getElementById('resultContainer');
+                    resultContainer.style.display = 'block';
+                    resultContainer.classList.add('animate__animated', 'animate__fadeIn');
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert(`Error: ${result.error}`);
                 }
-                
-                document.getElementById('result').classList.remove('hidden');
-                document.getElementById('predictionText').textContent = 
-                    `Prediction: ${result.prediction === 1 ? 'High Risk of Alzheimer\'s' : 'Low Risk of Alzheimer\'s'}`;
-                document.getElementById('probabilityText').textContent = 
-                    `Probability: ${(result.probability * 100).toFixed(2)}%`;
-                
             } catch (error) {
-                alert('Error: ' + error.message);
+                alert('An error occurred while processing your request.');
+                console.error(error);
             }
         });
+
+        async function printReport() {
+            try {
+                const resultContainer = document.getElementById('resultContainer');
+                if (resultContainer.style.display === 'none') {
+                    alert('Please complete an assessment first.');
+                    return;
+                }
+
+                // Show loading message
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = 'loadingMessage';
+                loadingDiv.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 1000;';
+                loadingDiv.innerHTML = '<h3>Generating PDF Report...</h3>';
+                document.body.appendChild(loadingDiv);
+
+                // Prepare the data
+                const data = {
+                    patient_name: document.getElementById('patientNameResult').textContent,
+                    prediction: document.getElementById('prediction').textContent,
+                    confidence: document.getElementById('confidence').textContent,
+                    timestamp: document.getElementById('timestamp').textContent,
+                    details: {}
+                };
+
+                // Get all feature values
+                {% for feature, info in features.items() %}
+                data.details['{{ feature }}'] = {
+                    value: document.querySelector(`#{{ feature }}`).value,
+                    unit: '{{ info.unit }}'
+                };
+                {% endfor %}
+
+                const response = await fetch('/print_report', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Remove loading message
+                document.body.removeChild(loadingDiv);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to generate PDF');
+                }
+
+                // Get the PDF blob
+                const blob = await response.blob();
+                
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `alzheimer_report_${new Date().toISOString().slice(0,10)}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error generating report: ' + error.message + '\nPlease make sure wkhtmltopdf is installed on the server.');
+            }
+        }
     </script>
 </body>
 </html> 

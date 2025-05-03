@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Disease Assessment Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #005b96;
+            padding-bottom: 20px;
+        }
+        
+        .hospital-name {
+            color: #005b96;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .report-title {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .patient-info {
+            margin-bottom: 30px;
+        }
+        
+        .result-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .prediction {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .prediction-positive {
+            color: #dc3545;
+        }
+        
+        .prediction-negative {
+            color: #28a745;
+        }
+        
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .details-table th,
+        .details-table td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+        
+        .details-table th {
+            background-color: #005b96;
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="hospital-name">Medical Diagnostic Center</div>
+        <div class="report-title">Alzheimer's Disease Assessment Report</div>
+    </div>
+
+    <div class="patient-info">
+        <p><strong>Patient Name:</strong> {{ data.patient_name }}</p>
+        <p><strong>Assessment Date:</strong> {{ data.timestamp }}</p>
+    </div>
+
+    <div class="result-box">
+        <div class="prediction {{ 'prediction-positive' if data.prediction == 'Positive' else 'prediction-negative' }}">
+            Assessment Result: {{ data.prediction }}
+        </div>
+        <p><strong>Confidence Level:</strong> {{ data.confidence }}</p>
+    </div>
+
+    <h3>Patient Assessment Details</h3>
+    <table class="details-table">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, info in data.details.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ info.value }} {{ info.unit }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>This is a computer-generated report. Please consult with a healthcare professional for detailed interpretation.</p>
+        <p>© {{ data.current_year }} Medical Diagnostic Center. All rights reserved.</p>
+    </div>
+</body>
+</html> 
