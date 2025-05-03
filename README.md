@@ -1,45 +1,34 @@
-# Alzheimer's Disease Classification System
+# Alzheimer's Disease Classification Project
 
-A machine learning-based web application for Alzheimer's disease risk assessment using medical parameters.
+## Project Overview
+This project implements a machine learning model for Alzheimer's disease prediction using patient health data. The system includes a Flask web application for risk assessment and prediction.
 
 ## Features
+- Machine learning model for Alzheimer's disease prediction
+- Web-based risk assessment interface
+- Detailed patient reports
+- Feature importance analysis
+- Model performance visualization
 
-- Interactive web interface for patient assessment
-- Real-time risk prediction using machine learning models
-- Detailed PDF report generation
-- Input validation and range checking
-- Professional medical interface design
+## Screenshots
 
-## Web Application Screenshots
-
-### Home Page
-![Home Page](E:\edge project 2025\Alzheimer-s-Disease-Classification\web app screenshort\Screenshot 2025-05-04 034022.png)
-*The main assessment form with input fields for patient data*
-
-### Assessment Form
-![Assessment Form](sE:\edge project 2025\Alzheimer-s-Disease-Classification\web app screenshort\Screenshot 2025-05-04 034034.png)
-*Detailed form with all medical parameters and their valid ranges*
-
-### Results Page
-![Results Page](E:\edge project 2025\Alzheimer-s-Disease-Classification\web app screenshort\Screenshot 2025-05-04 034043.png)
-*Prediction results with confidence level and detailed patient information*
-
-### PDF Report
-![PDF Report](E:\edge project 2025\Alzheimer-s-Disease-Classification\web app screenshort\Screenshot 2025-05-04 034437.png)
-*Professional PDF report with assessment results and patient details*
+### Web Application Interface
+![Web App Screenshot 1](web%20app%20screenshort/Screenshot%202025-05-04%20034022.png)
+![Web App Screenshot 2](web%20app%20screenshort/Screenshot%202025-05-04%20034034.png)
+![Web App Screenshot 3](web%20app%20screenshort/Screenshot%202025-05-04%20034043.png)
+![Web App Screenshot 4](web%20app%20screenshort/Screenshot%202025-05-04%20034437.png)
 
 ## Installation
-
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/CodeByMoheb/Alzheimer-s-Disease-Classification.git
 cd Alzheimer-s-Disease-Classification
 ```
 
 2. Create and activate a virtual environment:
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+.venv\Scripts\activate  # On Windows
 ```
 
 3. Install dependencies:
@@ -47,13 +36,11 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Install wkhtmltopdf for PDF generation:
+4. Install wkhtmltopdf for report generation:
 - Download from: https://wkhtmltopdf.org/downloads.html
-- Install the Windows 64-bit version
-- Use the default installation path
+- Install the downloaded executable
 
 ## Usage
-
 1. Start the Flask application:
 ```bash
 python app.py
@@ -61,40 +48,22 @@ python app.py
 
 2. Open your web browser and navigate to:
 ```
-http://127.0.0.1:5000
+http://localhost:5000
 ```
 
-3. Fill out the assessment form with patient data:
-- Age (10-100 years)
-- BMI (15-40 kg/m²)
-- Physical Activity Level (1-10 scale)
-- Sleep Quality (1-10 scale)
-- Systolic Blood Pressure (90-200 mmHg)
-- Total Cholesterol (100-300 mg/dL)
-- HDL Cholesterol (20-100 mg/dL)
-- MMSE Score (0-30)
-- Functional Assessment (1-10 scale)
-- ADL Score (1-10 scale)
+3. Enter patient information and get predictions
 
-4. Click "Assess Risk" to get the prediction
-
-5. Click "Print Report" to generate a PDF report
-
-## Model Information
-
-The system uses a Random Forest classifier trained on medical data to predict Alzheimer's disease risk. The model considers various medical parameters and provides a confidence level for the prediction.
-
-## Requirements
-
-- Python 3.8+
-- Flask
-- scikit-learn
-- pandas
-- numpy
-- joblib
-- pdfkit
-- wkhtmltopdf
+## Model Details
+The project uses a Random Forest classifier trained on the following features:
+- Age
+- BMI
+- Physical Activity Level
+- Sleep Quality
+- Systolic Blood Pressure
+- Cholesterol Levels
+- MMSE Score
+- Functional Assessment
+- Activities of Daily Living (ADL)
 
 ## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details. 
