@@ -1,5 +1,8 @@
 # 🧠 Alzheimer's Disease Classification System
 
+## project demonstration video
+https://youtu.be/IVfPNXIvBpY?si=Ct51ObT9cQ-Aqn28
+
 <div align="center">
   <img src="web%20app%20screenshort/Screenshot%202025-05-04%20034022.png" alt="System Overview" width="800"/>
 </div>
@@ -161,18 +164,14 @@ We welcome contributions to this project! Please follow these steps:
 3. Make your changes
 4. Submit a pull request
 
-### Contribution Guidelines
-- Follow PEP 8 style guide
-- Add comprehensive documentation
-- Include test cases for new features
-- Update the README if necessary
+
 
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📞 Contact
 For any questions or suggestions, please contact:
-- Email: [Your Email]
+- Email: mohebullah.cse@gmail.com
 - GitHub: [@CodeByMoheb](https://github.com/CodeByMoheb)
 
 ---
